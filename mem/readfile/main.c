@@ -1,4 +1,5 @@
 #define _GNU_SOURCE
+#define _USE_GNU 1
 #define BUF_SIZE 32 * 1024 * 1024
 
 #include <stdio.h>
@@ -42,7 +43,7 @@ long int get_value(char *str)
 
 void app(const char *disk, long int buffer_size)
 {
-    int flags = O_RDONLY | O_LARGEFILE | O_DIRECT;
+    int flags = O_RDONLY | O_DIRECT;
     int fd = open(disk, flags, 0755);
     if (fd < 0)
     {
@@ -52,7 +53,7 @@ void app(const char *disk, long int buffer_size)
 
     unsigned char *buf;
     struct timeval start, end;
-    posix_memalign((void **)&buf, 512, buffer_size);
+    posix_memalign((void **)&buf,512, buffer_size);
     int read_bytes = 0;
     gettimeofday(&start, NULL);
     while (read_bytes < buffer_size)
